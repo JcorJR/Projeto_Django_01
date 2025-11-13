@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{%block titulo%} HOME {%endblock%}
+
+{%block conteudo%}
+    <h1>Usuários
+        <a href="{%url 'add_usuario'%}">
+            Adicionar
+        </a>
+        <a href="{%url 'contato'%}">
+            Contate-nos
+        </a>
+    </h1>
+    <table>
+        {% for user in usuarios %}
+        <tr>
+            <td><h2>{{user.nome}}</h2></td>
+            <td><h2>{{user.sobrenome}}</h2></td>
+            <td><a href="{% url 'excluir_usuario' user.id%}">
+                excluir
+            </a></td>
+            <td>
+                <a href="{%url 'editar_usuario' user.id%}">
+                    Editar
+                </a>
+            </td>
+        </tr>
+        {%endfor%}
+    </table>
+
+{%endblock%}
