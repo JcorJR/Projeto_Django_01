@@ -1,0 +1,21 @@
+{%extends 'template.html'%}
+
+{%block titulo%} Lista de mensagens {%endblock%}
+
+{%block conteudo%}
+    
+    <table>
+        {% for msg in mensagens %}
+        <tr>
+            <td><h2>{{msg.nome}}</h2></td>
+            <td><h2>{{msg.email}}</h2></td>
+            <td><h2>{{msg.assunto}}</h2></td>
+            <td><h2>{{msg.mensagem}}</h2></td>
+            <td><a href="{% url 'excluir_contato' msg.id%}">
+                excluir
+            </a></td>
+        </tr>
+        {%endfor%}
+    </table>
+
+{%endblock%}

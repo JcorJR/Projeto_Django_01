@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'template.html' %}
 
 {%block titulo%} HOME {%endblock%}
 
@@ -9,6 +9,9 @@
         </a>
         <a href="{%url 'contato'%}">
             Contate-nos
+        </a>
+        <a href="{%url 'listcontato'%}">
+            mensagens
         </a>
     </h1>
     <table>
