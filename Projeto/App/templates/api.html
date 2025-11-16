@@ -1,0 +1,12 @@
+<h1>Produtos Fake Store</h1>
+
+{% for prod in dadosapi %}
+    <p>
+        {{prod.id}} - {{prod.title}}
+    </p>
+    <p>   {{prod.price}}</p>
+    <p>   {{prod.title}}</p>
+    <p>   {{prod.description}}</p>
+    <p>   {{prod.category}}</p>
+    <img src="{{prod.image}}">
+{% endfor %}

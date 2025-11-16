@@ -1,18 +1,31 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="PT-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{%block titulo%}{%endblock%}</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="{% static 'style-global.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+    <title>{% block titulo %}{% endblock %}</title>
 </head>
 <body>
+    {%if messages%}
+        {%for msg in messages%}
+            <p>{{msg}}</p>
+            {% endfor %}
+    {% endif %}
+    
     <header>
-        <img src="{%static 'django-logo.png'%}" width="'15px">
-        Django
-        <hr>
+        <div>
+            <img src="{% static 'images/jython.png' %}" width="42px">
+        </div>
+    <nav>
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'sobre' %}">Sobre</a>
+        <a href="#">Galeria</a>
+        <a href="produtos">Produtos</a>
+        <a href="{%url 'salvarUsuario'%}">Cadastro</a>
+        <a href="{%url 'login'%}">Login</a>
+    </nav>
     </header>
     <main>
         {% block conteudo %}

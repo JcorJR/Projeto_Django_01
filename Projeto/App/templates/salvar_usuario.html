@@ -1,0 +1,12 @@
+{% extends 'template.html' %}
+
+{%block titulo%}Usuário{%endblock%}
+
+{%block conteudo%}
+    <h1>Novo Usuário</h1>
+    <form action="{%url 'salvarUsuario'%}" method="post">
+        {%csrf_token%}
+        {{form}}
+        <input type="submit" value="Salvar">
+    </form>
+{%endblock%}

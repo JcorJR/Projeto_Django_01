@@ -1,14 +1,21 @@
 from django import forms
-from App.models import Usuario, Contato
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from App.models import Desenvolvedor, Contato, Produto, Categoria
 
-#formulário para o usuario
-class FormUsuario(forms.ModelForm):
+
+class FormDesenvolvedor(forms.ModelForm):
     class Meta:
-        #modelo do fourmlário
-        model = Usuario
-        #campos do formulário
-        fields = ('nome', 'sobrenome')
-        
+        model = Desenvolvedor
+        fields = "__all__"
+
+#formulário de login de usuario
+class FormUsuario(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username','email','password1','password2']
+         
+
 #formulário para o contato
 class FormContato(forms.ModelForm):
     class Meta:
@@ -16,3 +23,17 @@ class FormContato(forms.ModelForm):
         model = Contato
         #campos do formulário
         fields = ('nome','email','assunto','mensagem')
+
+#formulário para os produtos
+class FormProduto(forms.ModelForm):
+    class Meta:
+        model = Produto
+        fields = ['nome', 'descricao','preco','categoria']
+        
+        widgets = {'nome':forms.TextInput(attrs={'placehlder':'nome do produto'}),'imagem':forms.FileInput(attrs={'accept':'imagem/*'})}
+        
+#formulário categoria
+class FormCategoria(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ['nome']

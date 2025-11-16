@@ -1,0 +1,28 @@
+{% extends "template.html" %}
+
+{% block titulo %}Cadastro{% endblock %}
+
+{% block conteudo %}
+    <h1>Novo Produto</h1>
+
+    <form action="{% url 'salvarProduto' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}   
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}  
+        {% endif %}
+
+        {% for field in form %}
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <small>{{ error }}</small>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+            <button type="submit">Salvar</button>
+    </form>
+{% endblock %}

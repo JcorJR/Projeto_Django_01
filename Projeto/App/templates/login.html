@@ -1,0 +1,27 @@
+{%extends 'template.html'%}
+
+{%block titulo%}Login{%endblock%}
+
+{%block conteudo%}
+    
+    {%if messages%}
+        {%for msg in messages%}
+            <p>{{msg}}</p>
+        {%endfor%}
+    {%endif%}
+
+    <h1>Login</h1>
+    <form action="{%url 'login'%}" method="post">
+        {%csrf_token%}
+
+        <label>Nome</label>
+        <input type="text" name="nome" required>
+        <br>
+
+        <label>Senha</label>
+        <input type="text" name="senha" required>
+        <br>
+
+        <input type="submit" value="Entrar">
+    </form>
+{%endblock%}
