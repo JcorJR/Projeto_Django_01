@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from urllib.request import urlopen
 #import para a api
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -13,8 +14,7 @@ from django.template import loader
 #import dos formularios
 from App.forms import FormUsuario, FormContato, FormDesenvolvedor,FormCategoria,FormProduto
 #Import do modelo:
-from App.models import Desenvolvedor,Contato,Produto,Categoria
-   
+from App.models import Desenvolvedor,Contato,Produto
 def index(request):
     return render(request, 'index.html')
    
@@ -103,9 +103,11 @@ def getIdApiDev(request, id_dev):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def get_api(request):
-    response = request.get('https://fakestoreapi.com/products')
-    dados = response.json()
+    url = 'https://fakestoreapi.com/products'
+    response = urlopen(url)
+    dados = json.loads(response.read())
     return render(request, 'api.html', {'dadosapi':dados})
+
 #====================================================================
 
 # Crud desenvolverdores
