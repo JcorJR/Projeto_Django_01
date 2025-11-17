@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from urllib.request import urlopen
 #import para a api
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -12,7 +11,7 @@ from .serializer import DesenvolvedorSerializer
 #responsável por carregar, renderizar e gerenciar os arquivos HTML
 from django.template import loader
 #import dos formularios
-from App.forms import FormUsuario, FormContato, FormDesenvolvedor,FormCategoria,FormProduto
+from App.forms import FormUsuario, FormContato, FormDesenvolvedor,FormCategoria,FormProduto, FormCompra
 #Import do modelo:
 from App.models import Desenvolvedor,Contato,Produto
 def index(request):
@@ -103,10 +102,10 @@ def getIdApiDev(request, id_dev):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def get_api(request):
-    url = 'https://fakestoreapi.com/products'
-    response = urlopen(url)
-    dados = json.loads(response.read())
+    response = request.get('https://fakestoreapi.com/products')
+    dados = response.json()
     return render(request, 'api.html', {'dadosapi':dados})
+
 
 #====================================================================
 
@@ -197,4 +196,55 @@ def salvar_produtos(request,id_prod):
     else:
         formulario = FormProduto()
     return render(request, 'salvar_produtos.html', {'form':formulario})
+
+def Comprar(request, id_prod):
+    produto = Produto.objects.get(id=id_prod)
+    
+    if request.POST:
+        formulario = FormCompra(request.POST)
+        
+        if formulario.is_valid():  
+            compra = formulario.save(commit=False)
+            compra.produto = produto
+            
+            produto.estoque -= compra.quantidade
+            produto.save()
+            compra.save()
+            messages.success(request, 'Compra realizada com sucesso')
+            
+            return redirect('produtos')
+    else:
+        formulario = FormCompra()
+    
+    return render(request, "comprar.html", {'form':formulario, 'prod':produto})
+    
 #====================================================================
+
+# #Grafico
+
+#   vendas_totais = Compra.objects.values('produto_nome') \
+#         .annotate(quantidade_vendidade=Sum('quantidade')) \
+#         .order_by('produto_nome')
+    
+#     produtos = [venda['produto_nome'] for venda in vendas_totais]
+#     quantidade_vendida = [venda['quantidade_vendida'] for venda in vendas_totais]
+    
+    
+#     plt.figure(figsize=(10,6))
+#     plt.bar(produtos, quantidade_vendida, color='b')
+    
+#     plt.title('Quantidade de vendas por produto', fontsize=14)
+#     plt.xlabel('Produto', fontsize=12)
+#     plt.ylabel('Quantidade', fontsize=12)
+#     plt.xticks(rotation=45, ha='right')
+#     plt.grid(True)
+#     plt.tight_layout()
+    
+#     nome_arquivo_imagem = 'Quantidade_vendas_por_produto.png'
+#     caminho_grafico = os.path.join(settings.MEDIA_ROOT, nome_arquivo_imagem)
+    
+#     plt.savefig(caminho_grafico)
+#     plt.close()
+    
+#     url_grafico = os.path.join(settings.MEDIA_URL, nome_arquivo_imagem)
+#     return render(request, 'grafico.html', {'grafico' : url_grafico})

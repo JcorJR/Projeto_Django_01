@@ -29,3 +29,11 @@ class Produto(models.Model):
     
     def __str__(self):
         return self.nome
+    
+class Compra(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.PositiveIntegerField(default=1)
+    data=models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.quantidade * self.produto

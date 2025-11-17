@@ -30,5 +30,6 @@ urlpatterns = [
     #Produtos
     path('salvar_produto', views.salvar_produtos, name='salvar_produto'),
     path('produtos',views.Produtos, name='Produtos'),
+    path('comprar/<int:id_prod>', views.Comprar, name='comprar'),
 
 ]

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from App.models import Desenvolvedor, Contato, Produto, Categoria
+from App.models import Desenvolvedor, Contato, Produto, Categoria, Compra
 
 
 class FormDesenvolvedor(forms.ModelForm):
@@ -37,3 +37,9 @@ class FormCategoria(forms.ModelForm):
     class Meta:
         model = Categoria
         fields = ['nome']
+        
+#formulário Compra
+class FormCompra(forms.ModelForm):
+    class Meta:
+        model = Compra
+        fields = ['quantidade']
